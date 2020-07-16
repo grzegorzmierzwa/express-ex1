@@ -10,7 +10,7 @@
 </div>
 
 
-<form action="/contact/send-message" method="POST">
+<form action="/contact/send-message" method="POST" enctype="multipart/form-data">
     <label>
         Your name: <input type="text" name="author">
     </label>
@@ -19,6 +19,9 @@
     </label>
     <label>
         Title: <input type="text" name="title">
+    </label>
+    <label>
+        Send file: <input type="file" name="file" accept=".gif,.jpg,.jpeg,.png">
     </label>
     <label>
         Message: <textarea name="message"></textarea>
