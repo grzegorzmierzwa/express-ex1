@@ -1,7 +1,10 @@
 <h2>Contact me</h2>
 <div>
     {{#if isSent}}
-    The message has been sent!
+        The message has been sent!
+        {{#if sendFile}}
+        File {{ fileName }} has been send.
+        {{/if}}
     {{/if}}
 
     {{#if isError}}

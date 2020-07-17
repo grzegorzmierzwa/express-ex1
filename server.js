@@ -1,10 +1,15 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 app.engine('hbs', hbs());
 app.set('view engine', 'hbs');
+
+app.use(fileUpload({
+    createParentPath: true,
+}));
 
 app.use(express.static(path.join(__dirname, '/public')));
 
@@ -36,10 +41,20 @@ app.get('/history', (req, res) => {
 
 app.post('/contact/send-message', (req, res) => {
 
-    const { author, sender, title, message, file } = req.body;
+    let sendFile = false;
+    let fileName = '';
+    const { file } = req.files;
 
-    if (author && sender && title && message && file) {
-        res.render('contact', { isSent: true });
+    if (file) {
+        file.mv(`./public/uploads/${file.name}`);
+        sendFile = true;
+        fileName = file.name;
+    }
+
+    const { author, sender, title, message } = req.body;
+
+    if (author && sender && title && message ) {
+        res.render('contact', { isSent: true, sendFile, fileName });
     }
     else {
         res.render('contact', { isError: true });
